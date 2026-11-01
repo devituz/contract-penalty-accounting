@@ -1,0 +1,28 @@
+services:
+  app:
+    build: .
+    image: contract-penalty-accounting:local
+    ports:
+      - "127.0.0.1:${APP_PORT:-8000}:8000"
+    volumes:
+      - app_data:/data
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  # Testlar o'zining bazasida ishlaydi va app_data volume'iga tegmaydi.
+  test:
+    profiles: [test]
+    image: contract-penalty-accounting:local
+    build: .
+    entrypoint: []
+    command: php artisan test
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  app_data:
