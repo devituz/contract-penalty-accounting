@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectUsersTo('/contracts');
+
+        // Konteynerga faqat TLS proxy orqali kiriladi: havola va assetlar https bo'lib qolsin.
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->dontReport(RuleViolation::class);

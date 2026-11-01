@@ -1,0 +1,19 @@
+# Serverda: docker compose -p contract-accounting -f compose.yaml -f deploy/compose.prod.yaml up -d --build app
+# Tashqi port ochilmaydi: kirish faqat serverdagi Nginx Proxy Manager (proxy tarmog'i) orqali.
+services:
+  app:
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: ${APP_URL:?APP_URL kerak}
+      SESSION_SECURE_COOKIE: "true"
+    ports: !reset []
+    networks:
+      default:
+      proxy:
+        aliases:
+          - contract-accounting
+
+networks:
+  proxy:
+    external: true
