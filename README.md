@@ -5,6 +5,9 @@ buxgalteriyani (to'lov bosqichlari, smeta, reestr, bekor qilish) boshqaradi.
 
 Noaniq joylar bo'yicha qarorlar va qilinmagan ishlar: [ASSUMPTIONS.md](ASSUMPTIONS.md).
 
+**Jonli demo:** https://task.43-245-225-71.sslip.io (foydalanuvchilar pastda). Demo hammaga ochiq, ma'lumotni
+boshqalar ham o'zgartirishi mumkin.
+
 ## Ishga tushirish (Docker)
 
 Kerak: Docker va Docker Compose. Hamma narsa konteynerda: PHP o'rnatish shart emas.
@@ -41,6 +44,17 @@ composer run setup
 php artisan serve
 php artisan test
 ```
+
+## Serverga deploy
+
+Serverda Nginx Proxy Manager va uning `proxy` tarmog'i bo'lishi kerak. Tashqi port ochilmaydi,
+NPM'da `contract-accounting:8000` ga proxy host yaratiladi.
+
+```bash
+APP_URL=https://sizning-domen.uz docker compose -p contract-accounting -f compose.yaml -f deploy/compose.prod.yaml up -d --build app
+```
+
+`php artisan serve` faqat demo uchun: production yuklama uchun php-fpm va nginx kerak.
 
 ## Demo foydalanuvchilar
 
