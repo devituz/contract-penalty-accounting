@@ -16,7 +16,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo('/contracts');
 
         // Konteynerga faqat TLS proxy orqali kiriladi: havola va assetlar https bo'lib qolsin.
-        $middleware->trustProxies(at: '*');
+        // Faqat NPM o'zi yozadigan sarlavhalarga ishonamiz: X-Forwarded-Host mijozdan keladi va soxta bo'lishi mumkin.
+        $middleware->trustProxies(
+            at: '*',
+            headers: Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_PROTO,
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->dontReport(RuleViolation::class);
